@@ -1,50 +1,33 @@
-# Welcome to your Expo app 👋
+# Project Name
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This project has been restructured to use a custom folder structure with React Navigation and Zustand.
 
-## Get started
+## Structure
 
-1. Install dependencies
+- `/src` forms the core of the application.
+  - `api`: Axios client and endpoints.
+  - `assets`: Images, fonts, icons, and theme.
+  - `shared`: Global components, hooks, store, and utils.
+  - `features`: Feature-based modules (Auth, Onboarding, Booking, etc.).
+  - `navigation`: Navigation stacks (App, Auth, Root).
 
-   ```bash
-   npm install
-   ```
+## Getting Started
 
-2. Start the app
+1.  Install dependencies: `npm install`
+2.  Start the app: `npx expo start`
 
-   ```bash
-   npx expo start
-   ```
+## Performance Recommendations
 
-In the output, you'll find options to open the app in a
+To ensure the project remains as fast as possible, consider using the following libraries:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+1.  **@shopify/flash-list**: Use this instead of the standard `FlatList`. It runs on the UI thread and is significantly faster for large lists.
+    - Installation: `npx expo install @shopify/flash-list`
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+2.  **react-native-mmkv**: The fastest key/value storage for React Native (orders of magnitude faster than AsyncStorage).
+    - Installation: `npx expo install react-native-mmkv`
 
-## Get a fresh project
+3.  **expo-image**: Already installed. Use `<Image>` from `expo-image` instead of React Native's default Image component for better caching and performance.
 
-When you're ready, run:
+4.  **react-native-reanimated**: Already installed. Use this for all animations to ensure they run on the UI thread.
 
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+5.  **Hermes**: Ensure Hermes is enabled in your `app.json` (managed workflow usually enables it by default) for faster startup times and smaller bundle sizes.
