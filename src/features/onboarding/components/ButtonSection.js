@@ -1,20 +1,6 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { colors } from '../../../assets/theme/colors'
-
-const CustomButton = ({ title, backgroundColor, textColor, onPress, bordered }) => {
-    return (
-        <TouchableOpacity
-            style={[
-                styles.button,
-                { backgroundColor },
-                bordered && styles.bordered
-            ]}
-            onPress={onPress}
-        >
-            <Text style={[styles.buttonText, { color: textColor }]}>{title}</Text>
-        </TouchableOpacity>
-    )
-}
+import { StyleSheet, View } from 'react-native';
+import { colors } from '../../../assets/theme/colors';
+import CustomButton from '../../../shared/components/CustomButton';
 
 const ButtonSection = ({ onNext, onSkip, animationStep }) => {
     // Show "Get Started" button on step 2, otherwise show Skip/Next
@@ -61,20 +47,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 26,
         paddingHorizontal: 20,
-    },
-    button: {
-        paddingVertical: 12,
-        paddingHorizontal: 32,
-        borderRadius: 32,
-    },
-    bordered: {
-        borderWidth: 1,
-        borderColor: colors.darkGrey,
-    },
-    buttonText: {
-        fontSize: 16,
-        paddingHorizontal: 28,
-        fontWeight: '600',
     },
 })
 

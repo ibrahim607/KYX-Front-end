@@ -37,8 +37,8 @@ export const circleAnimations = [
 export const blackBallAnimations = [
     // Step 0: Initial position (no movement)
     { x: 0, y: 0 },
-    // Step 1: First "Next" click - move down
-    { x: 0, y: 220 },
+    // Step 1: First "Next" click - move down (responsive)
+    { x: 0, y: height * 0.25 },
     // Step 2: Second "Next" click - move down more
     { x: -width * 0.001, y: height * 0.27 },
 ];
@@ -47,18 +47,18 @@ export const blackBallAnimations = [
 export const logoAnimations = [
     // Step 0: Initial position
     { y: 0, x: 0 },
-    // Step 1: Move down
-    { y: 30, x: 0 },
-    // Step 2: Center the logo
-    { y: 100, x: 0 },
+    // Step 1: Move down (responsive)
+    { y: height * 0.037, x: 0 },
+    // Step 2: Center the logo (responsive)
+    { y: height * 0.123, x: 0 },
 ];
 
 // Kicker position animations
 export const kickerAnimations = [
     // Step 0: Initial position
     { y: 0 },
-    // Step 1: Move down
-    { y: 30 },
-    // Step 2: Move down significantly
-    { y: 20 },
+    // Step 1: Move down (responsive)
+    { y: height * 0.037 },
+    // Step 2: Move down (responsive)
+    { y: height * 0.025 },
 ];

@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { BOOKING_STATUS } from '../constants/bookingStatus';
 
 /**
  * Booking Store - Feature specific
@@ -8,7 +9,7 @@ const useBookingStore = create((set) => ({
     selectedCar: null,
     pickupDate: null,
     returnDate: null,
-    status: 'idle', // 'idle' | 'selecting' | 'confirming' | 'completed'
+    status: BOOKING_STATUS.IDLE,
 
     // Actions
     selectCar: (car) => set({ selectedCar: car }),
@@ -17,7 +18,7 @@ const useBookingStore = create((set) => ({
         selectedCar: null,
         pickupDate: null,
         returnDate: null,
-        status: 'idle'
+        status: BOOKING_STATUS.IDLE
     }),
 
     setStatus: (status) => set({ status }),

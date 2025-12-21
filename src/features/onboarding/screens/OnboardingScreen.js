@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
         width: width * 0.9,
         height: width * 0.9,
         backgroundColor: colors.darkGrey,
-        borderRadius: (width * 0.99) / 2,
+        borderRadius: (width * 0.9) / 2,
     }
 });
 

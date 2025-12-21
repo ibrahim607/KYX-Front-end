@@ -43,7 +43,26 @@ const SplashScreen = ({ navigation }) => {
         transform: [{ scale: logoScale.value }],
     }));
 
+    // Pre-compute ball positions (static values)
     const balls = [0, 60, 120, 180, 240, 300];
+    const ballPositions = balls.map((angle) => {
+        const rad = (angle * Math.PI) / 180;
+        const x = CIRCLE_RADIUS * Math.cos(rad);
+        const y = CIRCLE_RADIUS * Math.sin(rad);
+        return { x, y };
+    });
+
+    // Create animated styles for each ball (called at top level, not in render)
+    const ballAnimatedStyles = ballPositions.map((position) =>
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        useAnimatedStyle(() => ({
+            transform: [
+                { translateX: position.x },
+                { translateY: position.y },
+                { scale: ballsScale.value },
+            ],
+        }))
+    );
 
     return (
         <View style={styles.container}>
@@ -53,26 +72,11 @@ const SplashScreen = ({ navigation }) => {
                 style={[styles.logo, logoAnimatedStyle]}
             />
 
-            {balls.map((angle, index) => {
-                const rad = (angle * Math.PI) / 180;
-                const x = CIRCLE_RADIUS * Math.cos(rad);
-                const y = CIRCLE_RADIUS * Math.sin(rad);
-
-                // Create a unique animated style for each ball to handle translation + scale
-                const ballStyle = useAnimatedStyle(() => {
-                    return {
-                        transform: [
-                            { translateX: x },
-                            { translateY: y },
-                            { scale: ballsScale.value }
-                        ],
-                    };
-                });
-
+            {ballPositions.map((position, index) => {
                 return (
                     <Animated.View
                         key={index}
-                        style={[styles.ballContainer, ballStyle]}
+                        style={[styles.ballContainer, ballAnimatedStyles[index]]}
                     >
                         <Ball width={30} height={30} fill="#B0B0B0" />
                     </Animated.View>

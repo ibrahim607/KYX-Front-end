@@ -1,13 +1,20 @@
 import { NavigationContainer } from '@react-navigation/native';
+import { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { useAuthStore } from '../store';
 import AppStack from './AppStack';
 import AuthStack from './AuthStack';
 
 const RootNavigator = () => {
-    const { isAuthenticated } = useAuthStore();
-    // Ideally, checking auth state might be async, handling loading here:
-    const isLoading = false;
+    const { isAuthenticated, isInitialized, restoreSession } = useAuthStore();
+
+    // Restore session from stored tokens on app startup
+    useEffect(() => {
+        restoreSession();
+    }, [restoreSession]);
+
+    // Show loading screen while auth state is being restored
+    const isLoading = !isInitialized;
 
     if (isLoading) {
         return (
