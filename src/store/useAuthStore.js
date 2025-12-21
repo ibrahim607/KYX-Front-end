@@ -78,20 +78,27 @@ const useAuthStore = create((set, get) => ({
     /**
      * Update user profile data
      * @param {object} userData - Partial user data to update
-     * @throws {Error} If user update fails or tokens are missing
+     * @throws {Error} If user update fails or user is not authenticated
      */
     updateUser: async (userData) => {
         const currentUser = get().user;
         const updatedUser = currentUser ? { ...currentUser, ...userData } : userData;
 
-        // Read existing tokens from storage
-        const accessToken = await tokenManager.getAccessToken();
+        // Use in-memory state as source of truth for access token
+        const accessToken = get().token;
+        const isAuthenticated = get().isAuthenticated;
+
+        // Validate user is authenticated
+        if (!isAuthenticated || !accessToken) {
+            throw new Error('Cannot update user: user is not authenticated.');
+        }
+
+        // Read refresh token from storage (not kept in memory)
         const refreshToken = await tokenManager.getRefreshToken();
 
-        // Validate tokens exist before updating
-        // This prevents accidentally overwriting valid tokens with null
-        if (!accessToken || !refreshToken) {
-            throw new Error('Cannot update user: tokens are missing. User may not be authenticated.');
+        // Validate refresh token exists
+        if (!refreshToken) {
+            throw new Error('Cannot update user: refresh token is missing.');
         }
 
         // Update user in storage with validated tokens
