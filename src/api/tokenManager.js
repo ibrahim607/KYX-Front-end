@@ -1,18 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-/**
- * Token Manager
- * Handles secure storage and retrieval of authentication tokens
- */
-
 const TOKEN_KEY = '@auth_access_token';
 const REFRESH_TOKEN_KEY = '@auth_refresh_token';
 const USER_KEY = '@auth_user';
 
 export const tokenManager = {
-    /**
-     * Store access token, refresh token, and user data
-     */
     async setTokens(accessToken, refreshToken, user = null) {
         try {
             const items = [
@@ -31,9 +23,6 @@ export const tokenManager = {
         }
     },
 
-    /**
-     * Get access token
-     */
     async getAccessToken() {
         try {
             return await AsyncStorage.getItem(TOKEN_KEY);
@@ -43,9 +32,6 @@ export const tokenManager = {
         }
     },
 
-    /**
-     * Get refresh token
-     */
     async getRefreshToken() {
         try {
             return await AsyncStorage.getItem(REFRESH_TOKEN_KEY);
@@ -55,9 +41,6 @@ export const tokenManager = {
         }
     },
 
-    /**
-     * Get stored user data
-     */
     async getUser() {
         try {
             const userJson = await AsyncStorage.getItem(USER_KEY);
@@ -68,9 +51,6 @@ export const tokenManager = {
         }
     },
 
-    /**
-     * Update only the access token (after refresh)
-     */
     async updateAccessToken(accessToken) {
         try {
             await AsyncStorage.setItem(TOKEN_KEY, accessToken);
@@ -80,9 +60,6 @@ export const tokenManager = {
         }
     },
 
-    /**
-     * Clear all tokens and user data (logout)
-     */
     async clearTokens() {
         try {
             await AsyncStorage.multiRemove([TOKEN_KEY, REFRESH_TOKEN_KEY, USER_KEY]);
@@ -92,9 +69,6 @@ export const tokenManager = {
         }
     },
 
-    /**
-     * Check if user has stored tokens
-     */
     async hasTokens() {
         try {
             const accessToken = await this.getAccessToken();
@@ -106,9 +80,6 @@ export const tokenManager = {
         }
     },
 
-    /**
-     * Get all stored auth data
-     */
     async getAllAuthData() {
         try {
             const [accessToken, refreshToken, user] = await Promise.all([

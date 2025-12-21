@@ -1,10 +1,5 @@
-/**
- * Validate email format
- * @param {string} email - Email to validate
- * @returns {boolean} True if valid email format
- */
+// Email validation
 export const isValidEmail = (email) => {
-    // Defensive guard: check for null/undefined/non-string
     if (!email || typeof email !== 'string') {
         return false;
     }
@@ -13,13 +8,8 @@ export const isValidEmail = (email) => {
     return re.test(email);
 };
 
-/**
- * Validate password strength
- * @param {string} password - Password to validate
- * @returns {boolean} True if password meets minimum requirements
- */
+// Password validation (min 6 characters)
 export const isValidPassword = (password) => {
-    // Defensive guard: check for null/undefined/non-string
     if (!password || typeof password !== 'string') {
         return false;
     }

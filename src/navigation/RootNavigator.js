@@ -8,13 +8,12 @@ import AuthStack from './AuthStack';
 const RootNavigator = () => {
     const { isAuthenticated, isInitialized, restoreSession } = useAuthStore();
 
-    // Restore session from stored tokens on app startup (runs once)
+    // Restore session on mount
     useEffect(() => {
         restoreSession();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // Show loading screen while auth state is being restored
     const isLoading = !isInitialized;
 
     if (isLoading) {
