@@ -24,6 +24,10 @@ const OnboardingScreen = () => {
         handlers.playInitialAnimation();
     }, []);
 
+    // Defensive boundary check: ensure slideIndex is valid
+    const isValidSlideIndex = slides && slideIndex >= 0 && slideIndex < slides.length;
+    const currentSlide = isValidSlideIndex ? slides[slideIndex] : slides[0];
+
     return (
         <View style={styles.container}>
             <Animated.View style={[styles.topDome, animatedStyles.topDomeAnimatedStyle]} />
@@ -35,7 +39,7 @@ const OnboardingScreen = () => {
                 style={[styles.logo, animatedStyles.logoAnimatedStyle]}
             />
             <Animated.Image
-                source={slides[slideIndex].imageSource}
+                source={currentSlide.imageSource}
                 style={[styles.kicker, animatedStyles.kickerAnimatedStyle]}
                 resizeMode="contain"
             />
@@ -44,7 +48,7 @@ const OnboardingScreen = () => {
                 style={[styles.blackBall, animatedStyles.blackBallAnimatedStyle]}
                 resizeMode="contain"
             />
-            <Content slide={slides[slideIndex]} animationStep={animationStep} />
+            <Content slide={currentSlide} animationStep={animationStep} />
             <AnimatedBall
                 width={60}
                 height={60}
@@ -121,7 +125,7 @@ const styles = StyleSheet.create({
         width: width * 0.9,
         height: width * 0.9,
         backgroundColor: colors.darkGrey,
-        borderRadius: (width * 0.99) / 2,
+        borderRadius: (width * 0.9) / 2,
     }
 });
 

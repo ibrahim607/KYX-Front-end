@@ -1,17 +1,9 @@
 import { useState } from 'react';
 import { Dimensions } from 'react-native';
 import { useSharedValue, withDelay, withTiming } from 'react-native-reanimated';
-import {
-    ballAnimations,
-    blackBallAnimations,
-    bottomDomeAnimations,
-    circleAnimations,
-    kickerAnimations,
-    logoAnimations,
-    topDomeAnimations
-} from '../config/animationConfig';
+import { getAnimationConfig } from '../config/animationConfig';
 
-const { width, height } = Dimensions.get('window');
+const { height } = Dimensions.get('window');
 
 export const useOnboardingAnimations = () => {
     const [slideIndex, setSlideIndex] = useState(0);
@@ -35,12 +27,16 @@ export const useOnboardingAnimations = () => {
 
     // Initial animation on mount
     const playInitialAnimation = () => {
+        // Get fresh dimensions
+        const config = getAnimationConfig();
+        const { height: currentHeight } = config.dimensions;
+
         topDomeOpacity.value = withTiming(1, { duration: 500 });
-        logoTranslateY.value = withDelay(100, withTiming(-(height * 0.12), { duration: 800 }));
+        logoTranslateY.value = withDelay(100, withTiming(-(currentHeight * 0.12), { duration: 800 }));
         kickerScale.value = withDelay(100, withTiming(1, { duration: 800 }));
         blackBallScale.value = withDelay(100, withTiming(1, { duration: 800 }));
 
-        const { x, y } = ballAnimations[0];
+        const { x, y } = config.ballAnimations[0];
         ballTranslateX.value = withDelay(100, withTiming(x, { duration: 800 }));
         ballTranslateY.value = withDelay(100, withTiming(y, { duration: 800 }));
         ballOpacity.value = withDelay(100, withTiming(1, { duration: 800 }));
@@ -55,34 +51,37 @@ export const useOnboardingAnimations = () => {
             setSlideIndex(slideIndex + 1);
         }
 
+        // Get fresh animation config with current dimensions
+        const config = getAnimationConfig();
+
         // Animate if there's a next animation step
-        if (nextStep < ballAnimations.length) {
+        if (nextStep < config.ballAnimations.length) {
             setAnimationStep(nextStep);
 
             // Ball animations
-            const { x, y } = ballAnimations[nextStep];
+            const { x, y } = config.ballAnimations[nextStep];
             ballTranslateX.value = withTiming(x, { duration: 600 });
             ballTranslateY.value = withTiming(y, { duration: 600 });
 
             // Top and Bottom Dome animations
-            topDomeOpacity.value = withTiming(topDomeAnimations[nextStep].opacity, { duration: 600 });
-            bottomDomeOpacity.value = withTiming(bottomDomeAnimations[nextStep].opacity, { duration: 600 });
+            topDomeOpacity.value = withTiming(config.topDomeAnimations[nextStep].opacity, { duration: 600 });
+            bottomDomeOpacity.value = withTiming(config.bottomDomeAnimations[nextStep].opacity, { duration: 600 });
 
             // Circle animation
-            circleOpacity.value = withTiming(circleAnimations[nextStep].opacity, { duration: 600 });
+            circleOpacity.value = withTiming(config.circleAnimations[nextStep].opacity, { duration: 600 });
 
             // Black ball animation
-            const blackBall = blackBallAnimations[nextStep];
+            const blackBall = config.blackBallAnimations[nextStep];
             blackBallTranslateX.value = withTiming(blackBall.x, { duration: 600 });
             blackBallTranslateY.value = withTiming(blackBall.y, { duration: 600 });
 
             // Logo animation
-            const logo = logoAnimations[nextStep];
+            const logo = config.logoAnimations[nextStep];
             logoExtraTranslateY.value = withTiming(logo.y, { duration: 600 });
             logoTranslateX.value = withTiming(logo.x, { duration: 600 });
 
             // Kicker animation
-            kickerTranslateY.value = withTiming(kickerAnimations[nextStep].y, { duration: 600 });
+            kickerTranslateY.value = withTiming(config.kickerAnimations[nextStep].y, { duration: 600 });
         }
     };
 
