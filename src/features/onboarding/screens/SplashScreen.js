@@ -16,9 +16,8 @@ import Logo from '../../../assets/icons/logo.svg';
 const { width } = Dimensions.get('window');
 const CIRCLE_RADIUS = width * 0.35;
 
-// Create Animated components for the SVGs
+// Create Animated component for Logo
 const AnimatedLogo = Animated.createAnimatedComponent(Logo);
-const AnimatedBall = Animated.createAnimatedComponent(Ball);
 
 const SplashScreen = ({ navigation }) => {
     const logoScale = useSharedValue(0);

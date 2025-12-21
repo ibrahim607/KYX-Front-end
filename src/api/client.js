@@ -112,7 +112,8 @@ client.interceptors.response.use(
             }
 
             // Update Zustand state immediately for fast access
-            useAuthStore.getState().updateTokens(accessToken);
+            // Note: updateTokens now throws on failure, so this only runs if storage succeeded
+            await useAuthStore.getState().updateTokens(accessToken);
 
             // Process queued requests with new token
             processQueue(null, accessToken);
@@ -124,10 +125,10 @@ client.interceptors.response.use(
         } catch (refreshError) {
             // Refresh failed - clear tokens and logout
             processQueue(refreshError, null);
-            await tokenManager.clearTokens();
 
-            // Trigger logout in Zustand store
-            useAuthStore.getState().clearAuth();
+            // Clear both storage and in-memory state
+            // Note: clearAuth handles errors internally and always clears in-memory state
+            await useAuthStore.getState().clearAuth();
 
             return Promise.reject(refreshError);
         } finally {

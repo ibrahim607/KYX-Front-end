@@ -35,50 +35,70 @@ const useAuthStore = create((set, get) => ({
     /**
      * Update access token (called after refresh)
      * @param {string} accessToken - New JWT access token
+     * @throws {Error} If token update fails
      */
     updateTokens: async (accessToken) => {
-        try {
-            await tokenManager.updateAccessToken(accessToken);
-            set({ token: accessToken });
-        } catch (error) {
-            console.error('Failed to update token:', error);
-        }
+        // Update persistent storage first
+        await tokenManager.updateAccessToken(accessToken);
+
+        // Only update in-memory state if persistence succeeded
+        set({ token: accessToken });
     },
 
     /**
      * Logout - Clear all auth data
+     * Note: Always clears in-memory state, even if storage clear fails
+     * @throws {Error} If storage clear fails (after state is cleared)
      */
     clearAuth: async () => {
+        let storageError = null;
+
         try {
+            // Try to clear persistent storage
             await tokenManager.clearTokens();
-            set({
-                user: null,
-                token: null,
-                isAuthenticated: false,
-            });
         } catch (error) {
-            console.error('Failed to clear auth:', error);
+            // Log and save error, but continue to clear in-memory state
+            console.error('Failed to clear tokens from storage:', error);
+            storageError = error;
+        }
+
+        // Always clear in-memory state (logout should always work)
+        set({
+            user: null,
+            token: null,
+            isAuthenticated: false,
+        });
+
+        // Re-throw storage error after state is cleared
+        if (storageError) {
+            throw storageError;
         }
     },
 
     /**
      * Update user profile data
      * @param {object} userData - Partial user data to update
+     * @throws {Error} If user update fails or tokens are missing
      */
     updateUser: async (userData) => {
         const currentUser = get().user;
         const updatedUser = currentUser ? { ...currentUser, ...userData } : userData;
 
-        try {
-            // Update user in storage
-            const accessToken = await tokenManager.getAccessToken();
-            const refreshToken = await tokenManager.getRefreshToken();
-            await tokenManager.setTokens(accessToken, refreshToken, updatedUser);
+        // Read existing tokens from storage
+        const accessToken = await tokenManager.getAccessToken();
+        const refreshToken = await tokenManager.getRefreshToken();
 
-            set({ user: updatedUser });
-        } catch (error) {
-            console.error('Failed to update user:', error);
+        // Validate tokens exist before updating
+        // This prevents accidentally overwriting valid tokens with null
+        if (!accessToken || !refreshToken) {
+            throw new Error('Cannot update user: tokens are missing. User may not be authenticated.');
         }
+
+        // Update user in storage with validated tokens
+        await tokenManager.setTokens(accessToken, refreshToken, updatedUser);
+
+        // Only update in-memory state if persistence succeeded
+        set({ user: updatedUser });
     },
 
     /**
