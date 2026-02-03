@@ -1,16 +1,19 @@
 import { create } from 'zustand';
+import { authService } from '../api/authService';
 import { tokenManager } from '../api/tokenManager';
 
 const useAuthStore = create((set, get) => ({
     user: null,
     token: null,
-    isAuthenticated: false,
-    isInitialized: false,
+    isAuthenticated: true,
+    isInitialized: true,
 
-    // Login and store tokens
+    //set is auth and is init to false after development 
+
+    // Login and store tokens (only refresh token persists)
     setAuth: async (user, accessToken, refreshToken) => {
         try {
-            await tokenManager.setTokens(accessToken, refreshToken, user);
+            await tokenManager.setTokens(refreshToken, user);
             set({
                 user,
                 token: accessToken,
@@ -23,9 +26,9 @@ const useAuthStore = create((set, get) => ({
         }
     },
 
-    // Update access token after refresh
+    // Update access token (in-memory only)
     updateTokens: async (accessToken) => {
-        await tokenManager.updateAccessToken(accessToken);
+        // No storage update for access token
         set({ token: accessToken });
     },
 
@@ -69,24 +72,62 @@ const useAuthStore = create((set, get) => ({
             throw new Error('Cannot update user: refresh token is missing.');
         }
 
-        await tokenManager.setTokens(accessToken, refreshToken, updatedUser);
-        set({ user: updatedUser });
+        try {
+            // Call API to update user profile
+            // import { authService } from '../api/authService'; <-- Need to ensure this is imported
+            // Actually, we need to import it at the top of the file
+            const updatedProfile = await authService.updateProfile(userData);
+
+            // Merge returned data with existing user data
+            const newUserData = { ...currentUser, ...updatedProfile };
+
+            await tokenManager.setTokens(refreshToken, newUserData);
+            set({ user: newUserData });
+        } catch (error) {
+            console.error('Failed to update user profile:', error);
+            throw error;
+        }
     },
 
     // Restore session on app startup
     restoreSession: async () => {
         try {
-            const { accessToken, refreshToken, user } = await tokenManager.getAllAuthData();
+            const { refreshToken, user } = await tokenManager.getAllAuthData();
 
-            if (accessToken && refreshToken) {
-                set({
-                    user,
-                    token: accessToken,
-                    isAuthenticated: true,
-                    isInitialized: true,
-                });
+            if (refreshToken) {
+                try {
+                    console.log('Restoring session, refreshing token...');
 
-                console.log('Session restored successfully');
+                    // PLACEHOLDER: Call your actual refresh endpoint here
+                    const response = await axios.post('YOUR_API_URL/auth/refresh', { refreshToken });
+                    const { accessToken, refreshToken: newRefreshToken } = response.data;
+
+
+                    // Example Implementation:
+                    const newAccessToken = accessToken;
+                    // If you get a new refresh token, update it:
+                    await tokenManager.setTokens(newRefreshToken, user);
+
+                    set({
+                        user,
+                        token: newAccessToken,
+                        isAuthenticated: true,
+                        isInitialized: true,
+                    });
+
+
+                    // For now, just marking initialized, user stays logged out until you implement the call above.
+                    // If you want "auto-login" to work, you MUST implement the fetch above.
+                    set({
+                        user, // We set the user so UI might show "Welcome back" or similar while loading?
+                        isInitialized: true
+                    });
+
+                } catch (refreshError) {
+                    console.error('Session restore failed (refresh):', refreshError);
+                    await tokenManager.clearTokens();
+                    set({ isInitialized: true, user: null, isAuthenticated: false });
+                }
             } else {
                 set({ isInitialized: true });
                 console.log('No session to restore');

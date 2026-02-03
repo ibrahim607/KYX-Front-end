@@ -7,11 +7,15 @@ export const useAnimatedStyles = (sharedValues) => {
         logoTranslateY,
         logoExtraTranslateY,
         logoTranslateX,
+        logoScale,
         kickerScale,
         kickerTranslateY,
+        kickerTranslateX,
+        kickerExtraScale,
         blackBallScale,
         blackBallTranslateX,
         blackBallTranslateY,
+        blackBallOpacity,
         ballTranslateX,
         ballTranslateY,
         ballOpacity,
@@ -37,15 +41,25 @@ export const useAnimatedStyles = (sharedValues) => {
     const logoAnimatedStyle = useAnimatedStyle(() => ({
         transform: [
             { translateY: logoTranslateY.value + logoExtraTranslateY.value },
-            { translateX: logoTranslateX.value }
+            { translateX: logoTranslateX.value },
+            { scale: logoScale.value }
         ],
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        elevation: 8, // For Android
     }));
 
     const kickerAnimatedStyle = useAnimatedStyle(() => ({
         transform: [
-            { scaleX: kickerScale.value },
-            { scaleY: kickerScale.value },
-            { translateY: kickerTranslateY.value }
+            { scaleX: kickerScale.value * kickerExtraScale.value },
+            { scaleY: kickerScale.value * kickerExtraScale.value },
+            { translateY: kickerTranslateY.value },
+            { translateX: kickerTranslateX.value }
         ],
         opacity: kickerScale.value,
     }));
@@ -57,7 +71,7 @@ export const useAnimatedStyles = (sharedValues) => {
             { translateX: blackBallTranslateX.value },
             { translateY: blackBallTranslateY.value }
         ],
-        opacity: blackBallScale.value,
+        opacity: blackBallOpacity.value,
     }));
 
     const ballAnimatedStyle = useAnimatedStyle(() => ({

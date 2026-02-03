@@ -1,6 +1,7 @@
 const PlayerKickImg = require('../../../assets/icons/PlayerKick.png');
 const PlayerDribbleImg = require('../../../assets/icons/PlayerDribble.png');
 const PlayerStandImg = require('../../../assets/icons/PlayerStand.png');
+const PlayerKickImgGrey = require('../../../assets/icons/playerKickGrey.png');
 
 const slides = [
     {
@@ -20,6 +21,12 @@ const slides = [
         imageSource: PlayerStandImg,
         title: 'Play & Enjoy',
         description: 'Gather your team, book your slot, and enjoy the match.',
+    },
+    {
+        id: '4',
+        imageSource: PlayerKickImgGrey,
+        title: '',
+        description: ''
     },
 ];
 

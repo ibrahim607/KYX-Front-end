@@ -4,15 +4,22 @@ import { Dimensions } from 'react-native';
 export const getAnimationConfig = () => {
     const { width, height } = Dimensions.get('window');
 
+    // Button section is at bottom: 40px
+    // Position ball above buttons with consistent spacing
+    const buttonBottomPosition = 40;
+    const ballSpacingAboveButtons = 150;
+
     return {
         ballAnimations: [
-            { x: width * 0.45 - width * 0.025, y: height * 0.75 - height * 0.07 },
-            { x: width * 0.06 - width * 0.025, y: height * 0.15 - height * 0.07 },
-            { x: width * 0.8 - width * 0.01, y: height * 0.1 - height * 0.07 },
+            { x: width * 0.425, y: height - buttonBottomPosition - ballSpacingAboveButtons },
+            { x: width * 0.035, y: height * 0.08 },
+            { x: width * 0.79, y: height * 0.03 },
+            { x: width * 0.775, y: height - buttonBottomPosition - ballSpacingAboveButtons },
         ],
 
         topDomeAnimations: [
             { opacity: 1 },
+            { opacity: 0 },
             { opacity: 0 },
             { opacity: 0 },
         ],
@@ -21,30 +28,35 @@ export const getAnimationConfig = () => {
             { opacity: 0 },
             { opacity: 0 },
             { opacity: 1 },
+            { opacity: 0 },
         ],
 
         circleAnimations: [
             { opacity: 0 },
             { opacity: 1 },
             { opacity: 0 },
+            { opacity: 0 },
         ],
 
         blackBallAnimations: [
-            { x: 0, y: 0 },
-            { x: 0, y: height * 0.25 },
-            { x: -width * 0.001, y: height * 0.27 },
+            { x: 0, y: 0, opacity: 1 },
+            { x: 0, y: height * 0.25, opacity: 1 },
+            { x: 0, y: height * 0.27, opacity: 1 },
+            { x: 0, y: 0, opacity: 0 },
         ],
 
         logoAnimations: [
-            { y: 0, x: 0 },
-            { y: height * 0.037, x: 0 },
-            { y: height * 0.123, x: 0 },
+            { y: 0, x: 0, scale: 1 },
+            { y: height * 0.037, x: 0, scale: 1 },
+            { y: height * 0.123, x: 0, scale: 1 },
+            { y: -height * 0.1, x: 0, scale: 1.3 },
         ],
 
         kickerAnimations: [
-            { y: 0 },
-            { y: height * 0.037 },
-            { y: height * 0.025 },
+            { y: 0, scale: 1, x: 0 },
+            { y: height * 0.037, scale: 1, x: 0 },
+            { y: height * 0.025, scale: 1, x: 0 },
+            { y: height * 0.1, scale: 0.6, x: width * 0.45 },
         ],
 
         dimensions: { width, height },

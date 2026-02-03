@@ -12,6 +12,7 @@ import { colors } from '../../assets/theme/colors';
  * @param {object} style - Additional button styles
  * @param {object} textStyle - Additional text styles
  * @param {boolean} disabled - Disable button (default: false)
+ * @param {React.ReactNode} children - Custom content (overrides title if provided)
  */
 const CustomButton = ({
     title,
@@ -21,7 +22,8 @@ const CustomButton = ({
     bordered = false,
     style,
     textStyle,
-    disabled = false
+    disabled = false,
+    children
 }) => {
     return (
         <TouchableOpacity
@@ -36,9 +38,11 @@ const CustomButton = ({
             disabled={disabled}
             activeOpacity={0.7}
         >
-            <Text style={[styles.text, { color: textColor }, textStyle]}>
-                {title}
-            </Text>
+            {children || (
+                <Text style={[styles.text, { color: textColor }, textStyle]}>
+                    {title}
+                </Text>
+            )}
         </TouchableOpacity>
     );
 };

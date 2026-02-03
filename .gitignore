@@ -41,3 +41,6 @@ app-example
 # generated native folders
 /ios
 /android
+
+# Mock data for development
+/mock-data/

@@ -82,10 +82,9 @@ client.interceptors.response.use(
             // Update storage with new tokens
             if (newRefreshToken) {
                 const user = await tokenManager.getUser();
-                await tokenManager.setTokens(accessToken, newRefreshToken, user);
-            } else {
-                await tokenManager.updateAccessToken(accessToken);
+                await tokenManager.setTokens(newRefreshToken, user);
             }
+            // Access token is only updated in-memory via store below
 
             // Update in-memory state
             await useAuthStore.getState().updateTokens(accessToken);
