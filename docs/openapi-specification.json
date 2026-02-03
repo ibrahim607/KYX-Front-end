@@ -1,0 +1,960 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Kyx API",
+    "description": "Kyx API Documentation",
+    "version": "1.0.0"
+  },
+  "servers": [],
+  "paths": {
+    "/api/users/:id/role": {
+      "patch": {
+        "tags": [
+          "Promote a user to Owner"
+        ],
+        "summary": "Promote a user to Owner",
+        "description": "Converts a regular user to an Owner role.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/api/users/:id": {
+      "delete": {
+        "tags": [
+          "Delete a user (admin only)"
+        ],
+        "summary": "Delete a user (admin only)",
+        "description": "Deletes a user by ID. Only accessible by admins.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/api/users/forgot-password": {
+      "post": {
+        "tags": [
+          "Initiates the forgot password process for a user."
+        ],
+        "summary": "Initiates the forgot password process for a user.",
+        "description": "Sends a password reset email to the user with instructions to reset their password.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "userEmail": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/profile": {
+      "get": {
+        "tags": [
+          "Get the current user's profile"
+        ],
+        "summary": "Get the current user's profile",
+        "description": "Retrieves the profile of the currently authenticated user.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Update the current user's profile"
+        ],
+        "summary": "Update the current user's profile",
+        "description": "Updates the profile information of the currently authenticated user.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "firstName": "string",
+                  "lastName": "string",
+                  "email": "string",
+                  "phoneNumber": "string",
+                  "locationId": 7507
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/login": {
+      "post": {
+        "tags": [
+          "Login a user"
+        ],
+        "summary": "Login a user",
+        "description": "Authenticates a user and returns an access token. Refresh token is set in HTTP-only cookie.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "email": "string",
+                  "password": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/logout": {
+      "post": {
+        "tags": [
+          "Logout a user"
+        ],
+        "summary": "Logout a user",
+        "description": "Revokes the user's refresh token and clears the cookie.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/api/users/refresh-token": {
+      "post": {
+        "tags": [
+          "Refresh access token"
+        ],
+        "summary": "Refresh access token",
+        "description": "Exchanges a refresh token for a new access token. Refresh token is read from HTTP-only cookie.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/api/users/email/verification/resend": {
+      "post": {
+        "tags": [
+          "Resend email verification to user"
+        ],
+        "summary": "Resend email verification to user",
+        "description": "Resends a verification email to the specified user's email address if the user exists and is not already verified.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "userEmail": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/email/verify": {
+      "post": {
+        "tags": [
+          "Confirm a user's email"
+        ],
+        "summary": "Confirm a user's email",
+        "description": "Confirms a user's email address using the provided confirmation token",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "otp": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/phone-number/verification/resend": {
+      "post": {
+        "tags": [
+          "Resend SMS verification code"
+        ],
+        "summary": "Resend SMS verification code",
+        "description": "Resends an SMS verification code to the specified phone number for user verification",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "userPhoneNumber": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/phone-number/verify": {
+      "post": {
+        "tags": [
+          "Verify user phone number"
+        ],
+        "summary": "Verify user phone number",
+        "description": "Verifies a user's phone number using the provided OTP code",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "otp": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/reset-password": {
+      "post": {
+        "tags": [
+          "Reset a user's password"
+        ],
+        "summary": "Reset a user's password",
+        "description": "Resets a user's password using the provided reset token and new password",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "token": "string",
+                  "newPassword": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "get": {
+        "tags": [
+          "Get all users (admin only)"
+        ],
+        "summary": "Get all users (admin only)",
+        "description": "Retrieves a list of all users. Only accessible by admins.",
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Register a new user"
+        ],
+        "summary": "Register a new user",
+        "description": "Registers a new user and returns the result.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "email": "string",
+                  "phoneNumber": "string",
+                  "password": "string",
+                  "firstName": "string",
+                  "lastName": "string",
+                  "locationId": 2719
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/users": {
+      "post": {
+        "tags": [
+          "Register a new user (admin only)"
+        ],
+        "summary": "Register a new user (admin only)",
+        "description": "Registers a new user and returns the result.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "email": "string",
+                  "phoneNumber": "string",
+                  "password": "string",
+                  "firstName": "string",
+                  "lastName": "string",
+                  "role": "Admin",
+                  "locationId": 6924
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/fields/:fieldId": {
+      "put": {
+        "tags": [
+          "Update a field"
+        ],
+        "summary": "Update a field",
+        "description": "Updates an existing field with the provided information",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "name": "string",
+                  "description": "string",
+                  "pricePerHour": 8465,
+                  "locationId": 4604,
+                  "fieldStatus": "Deleted"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/fields": {
+      "post": {
+        "tags": [
+          "Creates a new field. (Admin required)"
+        ],
+        "summary": "Creates a new field. (Admin required)",
+        "description": "Creates a new field for the specified location. (Admin required)",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "ownerId": "a230de79-bdd1-e818-d66c-fe881e7ddb9a",
+                  "locationId": 1759,
+                  "name": "string",
+                  "description": "string",
+                  "pricePerHour": 4233,
+                  "latitude": 4041.0664169027277,
+                  "longitude": 5626.943042662849,
+                  "fieldStatus": "PendingApproval"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/locations/:city": {
+      "get": {
+        "tags": [
+          "Get areas by city"
+        ],
+        "summary": "Get areas by city",
+        "description": "Retrieves a list of areas for the specified city.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/api/locations": {
+      "post": {
+        "tags": [
+          "Creates a new location."
+        ],
+        "summary": "Creates a new location.",
+        "description": "Creates a new location with the specified city and area.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "city": "string",
+                  "area": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Get all locations"
+        ],
+        "summary": "Get all locations",
+        "description": "Retrieves a list of all locations.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/api/field-photos/:fieldId": {
+      "post": {
+        "tags": [
+          "Adds photos to a field. (Owner required)"
+        ],
+        "summary": "Adds photos to a field. (Owner required)",
+        "description": "Uploads one or more photos for the specified field, generating both original and thumbnail versions. (Owner required)",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Get field photos"
+        ],
+        "summary": "Get field photos",
+        "description": "Retrieves all photos and thumbnails for a given field.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/api/field-photos/:photoId": {
+      "delete": {
+        "tags": [
+          "Delete a field photo"
+        ],
+        "summary": "Delete a field photo",
+        "description": "Deletes a field photo by its ID",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/api/fields-availabilities/:fieldId": {
+      "get": {
+        "tags": [
+          "Get field availabilities"
+        ],
+        "summary": "Get field availabilities",
+        "description": "Retrieves all availabilities for a specific field",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/api/fields-availabilities": {
+      "post": {
+        "tags": [
+          "Create field availabilities in bulk"
+        ],
+        "summary": "Create field availabilities in bulk",
+        "description": "Creates multiple availability time slots for a specific field",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "fieldId": "68a6e86f-c8b1-d645-bb83-d3de4cb6b54a",
+                  "fieldAvailabilityRequests": [
+                    {
+                      "dayOfWeek": "Friday",
+                      "startTime": "01:21:59.759Z",
+                      "endtime": "09:29:59.515Z"
+                    },
+                    {
+                      "dayOfWeek": "Friday",
+                      "startTime": "20:54:35.969Z",
+                      "endtime": "04:17:26.983Z"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Update field availabilities"
+        ],
+        "summary": "Update field availabilities",
+        "description": "Updates the availability schedule for a specific field",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "fieldId": "68a6e86f-c8b1-d645-bb83-d3de4cb6b54a",
+                  "fieldAvailabilityRequests": [
+                    {
+                      "dayOfWeek": "Friday",
+                      "startTime": "01:21:59.759Z",
+                      "endtime": "09:29:59.515Z"
+                    },
+                    {
+                      "dayOfWeek": "Friday",
+                      "startTime": "20:54:35.969Z",
+                      "endtime": "04:17:26.983Z"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/field-availabilities/fields/:fieldId/day-of-week/:dayOfWeek": {
+      "delete": {
+        "tags": [
+          "Delete field availability"
+        ],
+        "summary": "Delete field availability",
+        "description": "Deletes the availability for a specific field on a given day of the week",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/api/fields/:id": {
+      "delete": {
+        "tags": [
+          "Delete a Field (admin and owner only)"
+        ],
+        "summary": "Delete a Field (admin and owner only)",
+        "description": "Deletes a field by ID. Only accessible by owners and admins.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Update the current owner's field"
+        ],
+        "summary": "Update the current owner's field",
+        "description": "Updates the field information for the currently authenticated owner.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "name": "string",
+                  "description": "string",
+                  "pricePerHour": 8313,
+                  "status": "Maintenance",
+                  "locationId": 4907
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/fields": {
+      "post": {
+        "tags": [
+          "Creates a new field. (Owner required)"
+        ],
+        "summary": "Creates a new field. (Owner required)",
+        "description": "Creates a new field for the specified location. (Owner required)",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "locationId": 6724,
+                  "name": "string",
+                  "description": "string",
+                  "pricePerHour": 5213,
+                  "latitude": 3073.8277872397225,
+                  "longitude": 9682.32688838192
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Get all fields or filter by location"
+        ],
+        "summary": "Get all fields or filter by location",
+        "description": "Retrieves a paginated list of fields, optionally filtered by locationId.",
+        "parameters": [
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "LocationId",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/api/slots/:slotId": {
+      "patch": {
+        "tags": [
+          "Block or unblock a slot"
+        ],
+        "summary": "Block or unblock a slot",
+        "description": "Blocks or unblocks a specific slot based on the IsBlocked parameter",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "isBlocked": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Delete a slot"
+        ],
+        "summary": "Delete a slot",
+        "description": "Deletes an existing slot by its ID",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/api/slots/fields/:fieldId": {
+      "get": {
+        "tags": [
+          "Get field slots"
+        ],
+        "summary": "Get field slots",
+        "description": "Retrieves all available slots for a specific field on a given date",
+        "parameters": [
+          {
+            "name": "DateQuery",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/api/bookings/:id": {
+      "delete": {
+        "tags": [
+          "Cancel a booking"
+        ],
+        "summary": "Cancel a booking",
+        "description": "Cancels an existing booking by its ID",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/api/bookings/fields/:fieldId": {
+      "get": {
+        "tags": [
+          "Get field bookings"
+        ],
+        "summary": "Get field bookings",
+        "description": "Retrieves all bookings for a specific field (field owner only)",
+        "parameters": [
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/api/customers/bookings": {
+      "get": {
+        "tags": [
+          "Get customer bookings"
+        ],
+        "summary": "Get customer bookings",
+        "description": "Retrieves bookings for the authenticated customer with optional date range filtering",
+        "parameters": [
+          {
+            "name": "FromDate",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ToDate",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {},
+    "securitySchemes": {}
+  }
+}

@@ -4,6 +4,7 @@ import Animated from 'react-native-reanimated';
 import Ball from '../../../assets/icons/ball.svg';
 import blackBall from '../../../assets/icons/black-ball.png';
 import Logo from '../../../assets/icons/logo.svg';
+import stringImage from '../../../assets/icons/string.png';
 import { colors } from '../../../assets/theme/colors';
 import ButtonSection from '../components/ButtonSection';
 import Content from '../components/Content';
@@ -55,6 +56,14 @@ const OnboardingScreen = () => {
                 fill={colors.lightGrey}
                 style={[styles.ball, animatedStyles.ballAnimatedStyle]}
             />
+            {/* String image - only visible on page 4 */}
+            {animationStep === 3 && (
+                <Animated.Image
+                    source={stringImage}
+                    style={styles.stringImage}
+                    resizeMode="contain"
+                />
+            )}
             <ButtonSection
                 onNext={handlers.handleNext}
                 onSkip={handlers.handleSkip}
@@ -67,7 +76,7 @@ const OnboardingScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.white
+        backgroundColor: colors.backgroundGrey
     },
     topDome: {
         position: 'absolute',
@@ -126,6 +135,13 @@ const styles = StyleSheet.create({
         height: width * 0.9,
         backgroundColor: colors.darkGrey,
         borderRadius: (width * 0.9) / 2,
+    },
+    stringImage: {
+        position: 'absolute',
+        bottom: -height * 0.45,  // Responsive: 50% of screen height below
+        left: -width * 0.025,   // Responsive: slight offset left
+        width: width * 1.2,
+        height: height * 1.2,
     }
 });
 
