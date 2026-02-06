@@ -4,7 +4,7 @@
     "slug": "KYX",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./src/assets/images/logo.png",
     "scheme": "kyx",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -42,6 +42,11 @@
       ],
       "expo-secure-store"
     ],
+    "extra": {
+      "apiBaseUrl": "https://api.example.com",
+      "apiTimeout": 10000,
+      "environment": "development"
+    },
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true

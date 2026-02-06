@@ -1,12 +1,11 @@
 import axios from 'axios';
+import config from '../config/environment';
 import useAuthStore from '../store/useAuthStore';
 import { tokenManager } from './tokenManager';
 
-const API_BASE_URL = 'https://api.example.com'; // TODO: Update with actual API URL
-
 const client = axios.create({
-    baseURL: API_BASE_URL,
-    timeout: 10000,
+    baseURL: config.api.baseURL,
+    timeout: config.api.timeout,
     headers: {
         'Content-Type': 'application/json',
     },
@@ -73,7 +72,7 @@ client.interceptors.response.use(
                 throw new Error('No refresh token available');
             }
 
-            const response = await axios.post(`${API_BASE_URL}/auth/refresh`, {
+            const response = await axios.post(`${config.api.baseURL}/auth/refresh`, {
                 refreshToken,
             });
 

@@ -95,9 +95,11 @@ export const useOnboardingAnimations = () => {
         }
     };
 
-    // Handle Skip button - resets animation for development
-    const handleSkip = () => {
-        handleReset();
+    // Handle Skip button - navigates to login
+    const handleSkip = (navigateToLogin) => {
+        if (navigateToLogin && typeof navigateToLogin === 'function') {
+            navigateToLogin();
+        }
     };
 
     // Reset animation (for development)
