@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import { useEffect } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -18,6 +19,7 @@ const AnimatedLogo = Animated.createAnimatedComponent(Logo);
 const AnimatedBall = Animated.createAnimatedComponent(Ball);
 
 const OnboardingScreen = () => {
+    const navigation = useNavigation();
     const { slideIndex, animationStep, sharedValues, handlers } = useOnboardingAnimations();
     const animatedStyles = useAnimatedStyles(sharedValues);
 
@@ -28,6 +30,11 @@ const OnboardingScreen = () => {
     // Defensive boundary check: ensure slideIndex is valid
     const isValidSlideIndex = slides && slideIndex >= 0 && slideIndex < slides.length;
     const currentSlide = isValidSlideIndex ? slides[slideIndex] : slides[0];
+
+    // Navigation callback for skip button
+    const navigateToLogin = () => {
+        navigation.navigate('Login');
+    };
 
     return (
         <View style={styles.container}>
@@ -66,7 +73,7 @@ const OnboardingScreen = () => {
             )}
             <ButtonSection
                 onNext={handlers.handleNext}
-                onSkip={handlers.handleSkip}
+                onSkip={() => handlers.handleSkip(navigateToLogin)}
                 animationStep={animationStep}
             />
         </View>
