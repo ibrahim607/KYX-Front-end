@@ -1,49 +1,77 @@
-# KYX - Football Field Booking App
+# KYX — Football Field Booking App ⚽
 
-A production-ready React Native mobile application for booking football fields, built with Expo, React Navigation, and Zustand.
+KYX is a mobile application that makes booking football fields fast, simple, and hassle-free. Users can browse available pitches, check real-time slot availability, book a field, and manage their profile — all from their phone.
 
-## 🚀 Features
+Built with **React Native** and **Expo**, the app is designed to be smooth, responsive, and ready for production.
 
-- **Beautiful Onboarding**: Animated onboarding flow with smooth transitions
-- **Authentication**: Complete auth flow with login, register, and password reset
-- **Field Booking**: Browse and book football fields with real-time availability
-- **User Profile**: Manage user profile and view booking history
-- **Production Ready**: Configured for easy backend integration
+---
+
+## � Install on Android
+
+You can download and install the latest Android build directly — no app store needed:
+
+👉 **[Download APK for Android](https://expo.dev/accounts/ibrahimyasin/projects/KYX/builds/34811258-41bd-430a-a93c-80006b0288a5)**
+
+> Open the link on your Android device, download the APK, and install it. You may need to allow installation from unknown sources in your phone's settings.
+
+---
+
+## ✨ Features
+
+- **Animated Onboarding** — A smooth, animated intro experience for first-time users
+- **Authentication** — Full auth flow including login, registration, and password reset
+- **Field Browsing** — Explore available football pitches with details like location and amenities
+- **Slot Booking** — View real-time availability and book time slots easily
+- **Booking Management** — Track and manage upcoming and past bookings
+- **User Profile** — View and edit profile information
+- **Secure Token Handling** — Access tokens in memory, refresh tokens in secure storage
+
+---
+
+## 🏗️ Tech Stack
+
+| Technology | Purpose |
+|---|---|
+| React Native | Mobile app framework |
+| Expo | Development platform & build tools |
+| React Navigation | Screen navigation |
+| Zustand | Global state management |
+| Axios | HTTP client for API calls |
+| React Hook Form | Form handling & validation |
+| React Native Reanimated | Smooth UI animations |
+| Expo Secure Store | Secure refresh token storage |
+
+---
 
 ## 📁 Project Structure
 
 ```
 /src
-├── api/                 # API services and Axios client
-│   ├── client.js       # Configured Axios instance with interceptors
-│   ├── endpoints.js    # API endpoint constants
-│   ├── authService.js  # Authentication APIs
-│   ├── bookingService.js
-│   ├── courtService.js
-│   └── ...
+├── api/                # Axios client, endpoints, and service files
 ├── assets/             # Images, fonts, icons, and theme
 ├── config/             # Environment configuration
-├── features/           # Feature-based modules
-│   ├── auth/
-│   ├── booking/
-│   ├── home/
-│   ├── onboarding/
-│   └── profile/
-├── navigation/         # Navigation stacks
-├── shared/             # Shared components, hooks, and utilities
-└── store/              # Zustand state management
+├── features/           # Feature modules
+│   ├── auth/           # Login, Register, Password Reset
+│   ├── booking/        # Slot booking flow
+│   ├── home/           # Home screen & pitch browsing
+│   ├── onboarding/     # Animated onboarding screens
+│   └── profile/        # User profile & edit profile
+├── navigation/         # Navigation stacks & routing
+├── shared/             # Reusable components, hooks, and utilities
+└── store/              # Zustand stores (auth, booking, etc.)
 ```
 
-## 🛠️ Getting Started
+---
+
+## � Running Locally (For Developers)
 
 ### Prerequisites
 
-- Node.js (v16 or higher)
-- npm or yarn
-- Expo CLI
-- iOS Simulator (Mac only) or Android Emulator
+- Node.js v16+
+- npm
+- Expo Go app on your phone (for testing on a real device)
 
-### Installation
+### Setup
 
 1. **Clone the repository**
    ```bash
@@ -56,10 +84,10 @@ A production-ready React Native mobile application for booking football fields, 
    npm install
    ```
 
-3. **Configure environment** (Optional for development)
+3. **Configure environment** *(optional)*
    ```bash
    cp .env.example .env
-   # Edit .env with your configuration
+   # Edit .env with your API URL and settings
    ```
 
 4. **Start the development server**
@@ -67,156 +95,39 @@ A production-ready React Native mobile application for booking football fields, 
    npm start
    ```
 
-5. **Run on device/emulator**
-   - Press `i` for iOS simulator
-   - Press `a` for Android emulator
-   - Scan QR code with Expo Go app for physical device
+5. **Open on your device**
+   - Scan the QR code with the **Expo Go** app (Android/iOS)
+   - Press `a` to open on an Android emulator
+   - Press `i` to open on an iOS simulator (Mac only)
+
+---
 
 ## 🔧 Backend Integration
 
-### Quick Setup
-
-1. **Update API URL in `app.json`**:
-   ```json
-   {
-     "expo": {
-       "extra": {
-         "apiBaseUrl": "https://your-api-url.com"
-       }
-     }
-   }
-   ```
-
-2. **Verify endpoints** in `src/api/endpoints.js` match your backend
-
-3. **Test the connection** by attempting to login
-
-### Detailed Documentation
-
-For comprehensive backend integration instructions, see:
-- **[Backend Integration Guide](./docs/BACKEND_INTEGRATION.md)** - Complete API documentation, authentication flow, and request/response formats
-- **[API Services Guide](./docs/API_SERVICES_GUIDE.md)** - Quick reference for all API services
-- **[Production Checklist](./docs/PRODUCTION_CHECKLIST.md)** - Pre-deployment checklist and deployment guide
-
-## 📚 Documentation
-
-- **[Backend Integration Guide](./docs/BACKEND_INTEGRATION.md)** - How to connect to your backend API
-- **[API Services Guide](./docs/API_SERVICES_GUIDE.md)** - API service usage and patterns
-- **[Production Checklist](./docs/PRODUCTION_CHECKLIST.md)** - Deployment preparation
-- **[Navigation Guide](./src/navigation/NAVIGATION_GUIDE.md)** - Navigation structure and usage
-
-## 🏗️ Tech Stack
-
-- **React Native** - Mobile framework
-- **Expo** - Development platform
-- **React Navigation** - Navigation library
-- **Zustand** - State management
-- **Axios** - HTTP client
-- **React Hook Form** - Form handling
-- **React Native Reanimated** - Animations
-- **Expo Secure Store** - Secure token storage
-
-## 🔐 Authentication
-
-The app implements a secure authentication system with:
-- **Access tokens** stored in-memory (Zustand)
-- **Refresh tokens** stored in Expo Secure Store
-- **Automatic token refresh** on 401 errors
-- **Session restoration** on app restart
-
-## 🎨 UI/UX Features
-
-- Smooth animations with React Native Reanimated
-- Custom alert modals
-- Responsive design for all screen sizes
-- Dark mode support (theme ready)
-- Safe area handling for iOS notch
-
-## 🧪 Testing
-
-Run tests with:
-```bash
-npm test
-```
-
-## 📱 Building for Production
-
-### Using EAS Build (Recommended)
-
-```bash
-# Install EAS CLI
-npm install -g eas-cli
-
-# Login to Expo
-eas login
-
-# Configure EAS
-eas build:configure
-
-# Build for iOS
-eas build --platform ios
-
-# Build for Android
-eas build --platform android
-```
-
-See [Production Checklist](./docs/PRODUCTION_CHECKLIST.md) for complete deployment instructions.
-
-## ⚡ Performance Optimizations
-
-The project uses several performance optimizations:
-
-1. **Hermes** - JavaScript engine for faster startup
-2. **React Native Reanimated** - UI thread animations
-3. **Expo Image** - Optimized image loading and caching
-4. **Code splitting** - Feature-based architecture
-
-### Recommended Additional Libraries
-
-- **@shopify/flash-list** - Faster list rendering
-  ```bash
-  npx expo install @shopify/flash-list
-  ```
-
-- **react-native-mmkv** - Faster storage (alternative to AsyncStorage)
-  ```bash
-  npx expo install react-native-mmkv
-  ```
-
-## 🔄 Environment Configuration
-
-The app supports multiple environments (development, staging, production):
+To connect to a real backend, update the API URL in `app.json`:
 
 ```json
-// app.json
 {
   "expo": {
     "extra": {
-      "apiBaseUrl": "https://api.yourdomain.com",
-      "environment": "production"
+      "apiBaseUrl": "https://your-api-url.com"
     }
   }
 }
 ```
 
-## 🐛 Debugging
+Then verify your endpoint definitions in `src/api/endpoints.js` match your backend routes.
 
-- Use React Native Debugger for network inspection
-- Enable network logging in development
-- Check console logs for API errors
-
-## 📄 License
-
-[Your License Here]
-
-## 🤝 Contributing
-
-[Your Contributing Guidelines Here]
-
-## 📞 Support
-
-For issues or questions, please refer to the documentation or create an issue.
+For detailed integration docs, see:
+- [Backend Integration Guide](./docs/BACKEND_INTEGRATION.md)
+- [API Services Guide](./docs/API_SERVICES_GUIDE.md)
 
 ---
 
-**Last Updated**: February 6, 2026
+## � License
+
+Private project — all rights reserved.
+
+---
+
+*Last Updated: February 25, 2026*
