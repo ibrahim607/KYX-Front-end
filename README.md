@@ -6,6 +6,16 @@ Built with **React Native** and **Expo**, the app is designed to be smooth, resp
 
 ---
 
+## ⚠️ Current Status — Demo / Pre-Production
+
+This app is **not yet in production**. It is currently running on **mock data**, meaning all screens, bookings, and user flows are simulated locally without a live backend.
+
+This is intentional — the full backend integration logic is already built into the codebase (API services, authentication flow, token management, interceptors, etc.). Connecting to a real backend is simply a matter of pointing the app to the correct API URL once the backend is ready and deployed.
+
+> 💡 **Want to see the onboarding animation?** Just **sign out** from the Profile screen and you'll be taken back through the full animated onboarding experience.
+
+---
+
 ## � Install on Android
 
 You can download and install the latest Android build directly — no app store needed:
