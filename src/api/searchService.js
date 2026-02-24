@@ -1,6 +1,11 @@
-import axios from 'axios';
+import { mockFields } from '../../mock-data/fields';
 
-// TODO: Replace with your actual API base URL
+// ============================================
+// TOGGLE THIS FLAG TO SWITCH BETWEEN MOCK AND REAL API
+// ============================================
+const USE_MOCK_DATA = true;
+
+// Real API base URL (only used when USE_MOCK_DATA = false)
 const API_BASE_URL = 'https://your-api-url.com/api';
 
 /**
@@ -10,18 +15,37 @@ const API_BASE_URL = 'https://your-api-url.com/api';
 export const searchService = {
     /**
      * Search pitches with filters
-     * @param {Object} params - Search parameters
-     * @param {string} params.query - Search query string
-     * @param {string} params.location - Location filter
-     * @param {string} params.date - Date filter
-     * @param {number} params.minPrice - Minimum price filter
-     * @param {number} params.maxPrice - Maximum price filter
-     * @param {string} params.pitchType - Type of pitch (e.g., '5v5', '7v7', '11v11')
-     * @param {number} params.page - Page number for pagination
-     * @param {number} params.limit - Number of results per page
-     * @returns {Promise} API response with search results
      */
     searchPitches: async (params) => {
+        if (USE_MOCK_DATA) {
+            await new Promise(resolve => setTimeout(resolve, 600));
+            let results = [...mockFields];
+
+            if (params.query) {
+                const q = params.query.toLowerCase();
+                results = results.filter(f =>
+                    f.name?.toLowerCase().includes(q) ||
+                    f.location?.toLowerCase().includes(q)
+                );
+            }
+            if (params.location) {
+                results = results.filter(f =>
+                    f.location?.toLowerCase().includes(params.location.toLowerCase())
+                );
+            }
+            if (params.pitchType) {
+                results = results.filter(f => f.type === params.pitchType);
+            }
+            if (params.minPrice !== undefined) {
+                results = results.filter(f => f.pricePerHour >= params.minPrice);
+            }
+            if (params.maxPrice !== undefined) {
+                results = results.filter(f => f.pricePerHour <= params.maxPrice);
+            }
+            return { data: results, total: results.length };
+        }
+
+        const { default: axios } = await import('axios');
         try {
             const response = await axios.get(`${API_BASE_URL}/pitches/search`, {
                 params: {
@@ -44,10 +68,22 @@ export const searchService = {
 
     /**
      * Get search suggestions/autocomplete
-     * @param {string} query - Search query string
-     * @returns {Promise} API response with suggestions
      */
     getSuggestions: async (query) => {
+        if (USE_MOCK_DATA) {
+            await new Promise(resolve => setTimeout(resolve, 300));
+            const q = query.toLowerCase();
+            const suggestions = mockFields
+                .filter(f =>
+                    f.name?.toLowerCase().includes(q) ||
+                    f.location?.toLowerCase().includes(q)
+                )
+                .slice(0, 5)
+                .map(f => ({ id: f.id, name: f.name, location: f.location }));
+            return suggestions;
+        }
+
+        const { default: axios } = await import('axios');
         try {
             const response = await axios.get(`${API_BASE_URL}/pitches/suggestions`, {
                 params: { q: query },
@@ -61,9 +97,17 @@ export const searchService = {
 
     /**
      * Get popular/trending pitches
-     * @returns {Promise} API response with popular pitches
      */
     getPopularPitches: async () => {
+        if (USE_MOCK_DATA) {
+            await new Promise(resolve => setTimeout(resolve, 400));
+            // Return top 5 fields by rating as "popular"
+            return [...mockFields]
+                .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+                .slice(0, 5);
+        }
+
+        const { default: axios } = await import('axios');
         try {
             const response = await axios.get(`${API_BASE_URL}/pitches/popular`);
             return response.data;
@@ -75,13 +119,15 @@ export const searchService = {
 
     /**
      * Get nearby pitches based on location
-     * @param {Object} location - Location coordinates
-     * @param {number} location.latitude - Latitude
-     * @param {number} location.longitude - Longitude
-     * @param {number} radius - Search radius in kilometers
-     * @returns {Promise} API response with nearby pitches
      */
     getNearbyPitches: async (location, radius = 5) => {
+        if (USE_MOCK_DATA) {
+            await new Promise(resolve => setTimeout(resolve, 500));
+            // In mock mode, return all fields as "nearby"
+            return mockFields.slice(0, 6);
+        }
+
+        const { default: axios } = await import('axios');
         try {
             const response = await axios.get(`${API_BASE_URL}/pitches/nearby`, {
                 params: {

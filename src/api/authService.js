@@ -1,9 +1,16 @@
+import { mockUser } from '../../mock-data/user';
 import client from './client';
 import { ENDPOINTS } from './endpoints';
+
+// ============================================
+// TOGGLE THIS FLAG TO SWITCH BETWEEN MOCK AND REAL API
+// ============================================
+const USE_MOCK_DATA = true;
 
 /**
  * Auth Service
  * Handles all authentication-related API calls
+ * In mock mode: any email/password will work for login
  */
 
 export const authService = {
@@ -13,6 +20,20 @@ export const authService = {
      * @returns {Promise<Object>} - { user, accessToken, refreshToken }
      */
     login: async (credentials) => {
+        if (USE_MOCK_DATA) {
+            await new Promise(resolve => setTimeout(resolve, 800));
+            // In demo mode, any email/password works
+            // Use the email typed as the user's email for a personal feel
+            const demoUser = {
+                ...mockUser,
+                email: credentials.email || mockUser.email,
+            };
+            return {
+                user: demoUser,
+                accessToken: 'mock-access-token-demo',
+                refreshToken: 'mock-refresh-token-demo',
+            };
+        }
         try {
             const response = await client.post(ENDPOINTS.LOGIN, credentials);
             return response.data;
@@ -27,6 +48,22 @@ export const authService = {
      * @returns {Promise<Object>} - { user, accessToken, refreshToken }
      */
     register: async (userData) => {
+        if (USE_MOCK_DATA) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            // In demo mode, registration always succeeds
+            const newUser = {
+                ...mockUser,
+                firstName: userData.firstName || mockUser.firstName,
+                lastName: userData.lastName || mockUser.lastName,
+                email: userData.email || mockUser.email,
+                phoneNumber: userData.phoneNumber || mockUser.phoneNumber,
+            };
+            return {
+                user: newUser,
+                accessToken: 'mock-access-token-demo',
+                refreshToken: 'mock-refresh-token-demo',
+            };
+        }
         try {
             const response = await client.post(ENDPOINTS.REGISTER, userData);
             return response.data;
@@ -41,6 +78,11 @@ export const authService = {
      * @returns {Promise<Object>} - Updated user object
      */
     updateProfile: async (userData) => {
+        if (USE_MOCK_DATA) {
+            await new Promise(resolve => setTimeout(resolve, 600));
+            // In demo mode, profile updates succeed locally
+            return { ...mockUser, ...userData };
+        }
         try {
             const response = await client.put(ENDPOINTS.USER_PROFILE, userData);
             return response.data;

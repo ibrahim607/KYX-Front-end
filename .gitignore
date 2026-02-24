@@ -43,5 +43,5 @@ app-example
 /ios
 /android
 
-# Mock data for development
-/mock-data/
+# Mock data is included in build (needed for demo APK)
+# /mock-data/

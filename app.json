@@ -45,11 +45,21 @@
     "extra": {
       "apiBaseUrl": "https://api.example.com",
       "apiTimeout": 10000,
-      "environment": "development"
+      "environment": "development",
+      "router": {},
+      "eas": {
+        "projectId": "af2c8e33-eab4-4ad3-92e9-2d264d5ae423"
+      }
     },
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/af2c8e33-eab4-4ad3-92e9-2d264d5ae423"
     }
   }
 }
