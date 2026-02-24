@@ -318,7 +318,7 @@ All API endpoint paths are defined in `src/api/endpoints.js`. Verify they match 
 
 ## 📄 License
 
-Private project — all rights reserved.
+KYX — all rights reserved.
 
 ---
 
